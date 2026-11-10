@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adriano Celentano — Ja Tebia Liubliu (1994) | Analog Cinema Master</title>
+  
+  <!-- High-End Editorial & Luxury Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Italiana&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,900;1,700;1,900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <!-- 35mm Kodak Film Grain & Vignette -->
+  <div class="cinema-vignette"></div>
+  <div class="film-grain"></div>
+
+  <!-- Anamorphic Lens Flare Canvas (Cinematic Light Streaks) -->
+  <canvas id="lensCanvas"></canvas>
+
+  <!-- Top Cinema Header Strip -->
+  <header class="cinema-header">
+    <div class="brand-block">
+      <span class="rec-dot"></span>
+      <span class="mono-label">REC 1994 • STEREO 8D MASTER</span>
+    </div>
+    <div class="timecode-display" id="timecodeDisplay">02:13:00 / 05:29:75</div>
+    <div class="format-pill">HI-FI DOLBY PRO</div>
+  </header>
+
+  <!-- Center Stage: Analog Reel Tape Deck + Giant Movie Typography -->
+  <main class="main-stage">
+    
+    <!-- Vintage Reel-to-Reel Tape Spools & Dual Analog VU Meters -->
+    <div class="analog-deck" id="analogDeck">
+      <!-- Left Reel -->
+      <div class="tape-reel left-reel" id="reelLeft">
+        <div class="reel-core"></div>
+        <div class="spool-spoke spoke-1"></div>
+        <div class="spool-spoke spoke-2"></div>
+        <div class="spool-spoke spoke-3"></div>
+      </div>
+
+      <!-- Center Dual Analog VU Meters (Real Audio-Reactive Needles) -->
+      <div class="vu-unit">
+        <div class="vu-meter" id="vuLeft">
+          <div class="vu-scale">
+            <span>-20</span><span>-10</span><span>-5</span><span>0</span><span class="red-zone">+3</span>
+          </div>
+          <div class="vu-needle" id="needleLeft"></div>
+          <span class="meter-ch">CH-L</span>
+        </div>
+        <div class="vu-meter" id="vuRight">
+          <div class="vu-scale">
+            <span>-20</span><span>-10</span><span>-5</span><span>0</span><span class="red-zone">+3</span>
+          </div>
+          <div class="vu-needle" id="needleRight"></div>
+          <span class="meter-ch">CH-R</span>
+        </div>
+      </div>
+
+      <!-- Right Reel -->
+      <div class="tape-reel right-reel" id="reelRight">
+        <div class="reel-core"></div>
+        <div class="spool-spoke spoke-1"></div>
+        <div class="spool-spoke spoke-2"></div>
+        <div class="spool-spoke spoke-3"></div>
+      </div>
+    </div>
+
+    <!-- Monumental Cinema Typography Stage with Smooth Transitions -->
+    <div class="typography-stage" id="typeStage">
+      <div class="lang-indicator" id="langIndicator">FRENCH / 1994</div>
+      <div class="monumental-text" id="monumentalText">CHAQUE FOIS QUE TU TE REVEILLES</div>
+      <div class="poetic-subtext" id="poeticSubtext">Har gal sen uyg'onganingda...</div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Analog Deck Transport Strip -->
+  <footer class="deck-footer" id="deckFooter">
+    <div class="deck-meta">
+      <span class="track-artist">ADRIANO CELENTANO</span>
+      <span class="track-name">JA TEBIA LIUBLIU (QUEL PUNTO)</span>
+    </div>
+
+    <div class="deck-controls">
+      <button class="deck-btn cue-btn" id="btnCueDrop" title="Mashhur Drop qismidan boshlash (02:13)">
+        <span class="btn-lamp"></span>
+        <span>CUE DROP [02:13]</span>
+      </button>
+
+      <button class="deck-btn" id="btnZero" title="Eng boshidan boshlash">
+        <span>REWIND [00:00]</span>
+      </button>
+
+      <button class="deck-btn play-btn" id="btnPlayPause" title="Ijro / Pauza">
+        <span id="playSymbol">PLAY ▶</span>
+      </button>
+
+      <button class="deck-btn" id="btnFullscreen" title="Butun ekran (Reels video olish uchun)">
+        <span>FULLSCREEN ⛶</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Click to Enter Prompt -->
+  <div class="click-cue-overlay" id="clickCue">
+    <div class="cue-content">
+      <div class="cue-brand">STUDIO MASTER VINTAGE TAPE</div>
+      <h1 class="cue-title">YES, YES, I LOVE YOU</h1>
+      <p class="cue-desc">Adriano Celentano • 1994 Multilingual Masterpiece</p>
+      <div class="cue-action">
+        <span class="cue-pulse"></span>
+        <span>TUGMANI BOSING VA TINGLANG</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Element -->
+  <audio id="tapeAudio" preload="auto" src="./song.mp3"></audio>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

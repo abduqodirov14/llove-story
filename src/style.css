@@ -1,0 +1,593 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+:root {
+  --bg-carbon: #070609;
+  --tape-gold: #d4af37;
+  --vu-amber: #ffaa22;
+  --vu-red: #ff3344;
+  --text-pure: #ffffff;
+  --text-dim: rgba(255, 255, 255, 0.4);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-carbon);
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-pure);
+}
+
+/* 35mm Kodak Film Grain & Cinema Vignette */
+.cinema-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.88) 100%);
+}
+
+.film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 51;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Anamorphic Lens Flare Canvas */
+#lensCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Cinema Header */
+.cinema-header {
+  position: fixed;
+  top: 24px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 60;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff2233;
+  box-shadow: 0 0 10px #ff2233;
+  animation: blinkRec 1.4s infinite ease-in-out;
+}
+
+@keyframes blinkRec {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.timecode-display {
+  color: var(--tape-gold);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+.format-pill {
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+/* Main Stage */
+.main-stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 0 30px;
+}
+
+/* Vintage Analog Reel-to-Reel Tape Deck & VU Meters */
+.analog-deck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  margin-bottom: 36px;
+  opacity: 0.65;
+  transition: opacity 0.5s ease, transform 0.4s ease;
+}
+
+.analog-deck.active {
+  opacity: 0.95;
+}
+
+/* Tape Reels */
+.tape-reel {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #252429 20%, #151419 60%, #0d0c10 100%);
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.8);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tape-reel.spinning {
+  animation: reelSpin 4s linear infinite;
+}
+
+@keyframes reelSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.reel-core {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #d4af37 20%, #8c721f 80%);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  z-index: 2;
+}
+
+.spool-spoke {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.spoke-1 { transform: rotate(0deg); }
+.spoke-2 { transform: rotate(60deg); }
+.spoke-3 { transform: rotate(120deg); }
+
+/* Center Dual Analog VU Meters */
+.vu-unit {
+  display: flex;
+  gap: 16px;
+  padding: 12px 16px;
+  background: #111016;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+.vu-meter {
+  width: 120px;
+  height: 75px;
+  background: radial-gradient(ellipse at bottom, #2d2417 0%, #16120c 70%, #0c0a07 100%);
+  border: 1px solid rgba(255, 170, 34, 0.3);
+  box-shadow: inset 0 0 25px rgba(255, 170, 34, 0.2);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  padding: 8px;
+}
+
+.vu-scale {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: var(--vu-amber);
+  opacity: 0.8;
+  letter-spacing: 0.05em;
+}
+
+.red-zone {
+  color: var(--vu-red);
+}
+
+.vu-needle {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 1.5px;
+  height: 58px;
+  background: #ffffff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  transform-origin: bottom center;
+  transform: rotate(-45deg);
+  transition: transform 0.08s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+.meter-ch {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-size: 8px;
+  color: var(--text-dim);
+}
+
+/* Monumental Cinema Typography Stage */
+.typography-stage {
+  text-align: center;
+  max-width: 1100px;
+  width: 100%;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.lang-indicator {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--tape-gold);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  opacity: 0.8;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), letter-spacing 0.4s ease;
+}
+
+.monumental-text {
+  font-family: 'Italiana', serif;
+  font-size: clamp(38px, 6.8vw, 86px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+  margin-bottom: 16px;
+  transition: opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1), 
+              transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), 
+              filter 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.monumental-text.highlight-drop {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 8.8vw, 110px);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow:
+    0 0 40px rgba(255, 255, 255, 0.8),
+    0 0 80px rgba(212, 175, 55, 0.6);
+}
+
+.poetic-subtext {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.6vw, 28px);
+  font-style: italic;
+  letter-spacing: 0.08em;
+  color: rgba(226, 186, 125, 0.9);
+  font-weight: 400;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth Switching / Transition States */
+.typography-stage.transitioning-out .lang-indicator {
+  opacity: 0;
+  transform: translateY(-8px);
+  letter-spacing: 0.55em;
+}
+
+.typography-stage.transitioning-out .monumental-text {
+  opacity: 0;
+  transform: translateY(-24px) scale(1.02);
+  filter: blur(14px);
+}
+
+.typography-stage.transitioning-out .poetic-subtext {
+  opacity: 0;
+  transform: translateY(-12px);
+  filter: blur(8px);
+}
+
+.typography-stage.transitioning-in .lang-indicator {
+  animation: langEnter 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.typography-stage.transitioning-in .monumental-text {
+  animation: textEnter 0.85s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.typography-stage.transitioning-in .poetic-subtext {
+  animation: subEnter 0.75s cubic-bezier(0.19, 1, 0.22, 1) 0.1s forwards;
+}
+
+@keyframes textEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+    filter: blur(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes langEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    letter-spacing: 0.6em;
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateY(0);
+    letter-spacing: 0.4em;
+  }
+}
+
+@keyframes subEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Bottom Deck Footer */
+.deck-footer {
+  position: fixed;
+  bottom: 28px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 60;
+  background: rgba(14, 13, 18, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 12px;
+  padding: 12px 24px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.deck-footer.fade-out {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.deck-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-artist {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--tape-gold);
+}
+
+.track-name {
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+.deck-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deck-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deck-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.cue-btn {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.4);
+  color: var(--tape-gold);
+}
+
+.cue-btn:hover {
+  background: rgba(212, 175, 55, 0.3);
+  border-color: var(--tape-gold);
+}
+
+.btn-lamp {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tape-gold);
+  box-shadow: 0 0 6px var(--tape-gold);
+}
+
+.play-btn {
+  background: #ffffff;
+  color: #070609;
+  border-color: #ffffff;
+}
+
+.play-btn:hover {
+  background: var(--tape-gold);
+  border-color: var(--tape-gold);
+  color: #000;
+}
+
+/* Click to Cue Overlay */
+.click-cue-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(7, 6, 9, 0.94);
+  backdrop-filter: blur(25px);
+  z-index: 100;
+  cursor: pointer;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.click-cue-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cue-content {
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cue-brand {
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: var(--tape-gold);
+  margin-bottom: 12px;
+}
+
+.cue-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 7vw, 56px);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.cue-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  margin-bottom: 34px;
+}
+
+.cue-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 32px;
+  border: 1px solid var(--tape-gold);
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--tape-gold);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.click-cue-overlay:hover .cue-action {
+  background: var(--tape-gold);
+  color: #070609;
+}
+
+.cue-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tape-gold);
+  box-shadow: 0 0 10px var(--tape-gold);
+}
+
+/* Mobile & Reels 9:16 Responsiveness */
+@media (max-width: 768px) {
+  .cinema-header {
+    top: 16px;
+    left: 16px;
+    right: 16px;
+  }
+  .format-pill {
+    display: none;
+  }
+  .analog-deck {
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .tape-reel {
+    width: 90px;
+    height: 90px;
+  }
+  .reel-core {
+    width: 28px;
+    height: 28px;
+  }
+  .vu-meter {
+    width: 85px;
+    height: 58px;
+  }
+  .deck-footer {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    padding: 10px 16px;
+  }
+  .deck-meta {
+    display: none;
+  }
+}
